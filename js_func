@@ -1,0 +1,51 @@
+function deepClone(data) {
+  const type = judgeType(data);
+  let obj = null;
+  if (type === 'array') {
+    obj = [];
+    for (let i = 0; i < data.length; i++) {
+      obj.push(deepClone(data[i]))     
+    }
+  } else if (type === 'object') {
+    obj = {};
+    for (const key in data) {
+      if (Object.hasOwnProperty.call(data, key)) {
+        obj[key] = deepClone(data[key])
+      }
+    }
+  } else {
+    return data
+  }
+  return obj
+}
+
+function judgeType(obj) {
+  const toString = Object.prototype.toString;
+  const map = {
+    '[object Boolean]': 'boolean',
+    '[object Number]': 'number',
+    '[object String': 'string',
+    '[object Array]': 'array',
+    '[object Object]': 'object',
+    '[object Function]': 'function',
+    '[object Null]': 'null',
+    '[object Undefined]': 'undefined',
+    '[object Date]': 'date',
+    '[object RegExp]': 'regExp'
+  }
+  if(obj instanceof Element) {
+    return 'element'
+  }
+  return map[toString.call(obj)]
+}
+const deepCloneTest = {
+  a: 10,
+  b: ['a,','b',{c: 'c'}],
+  c: {d: [['q'],{g: 'gg'}]},
+  d: function(){
+    console.log('dd')
+  },
+  e:undefined,
+  f: null,
+  g: 'xxxx'
+}
